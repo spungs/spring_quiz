@@ -6,7 +6,7 @@
 		SELECT count(id) FROM spring_quiz WHERE id=#{id}
 	</select>
 	<insert id="insert" parameterType="com.care.quiz.membership.dto.MemberDTO">
-		INSERT INTO spring_quiz VALUES(#{id},#{pw},#{email},#{address},#{gender})
+		INSERT INTO spring_quiz VALUES(#{id},#{pw},#{gender},#{email},#{zipcode},#{addr1},#{addr2})
 	</insert>
 	<select id="login" parameterType="com.care.quiz.membership.dto.MemberDTO" resultType="com.care.quiz.membership.dto.MemberDTO">
 		SELECT * FROM spring_quiz WHERE id=#{id}

@@ -8,15 +8,17 @@ import org.springframework.stereotype.Service;
 
 import com.care.quiz.membership.dao.IMemberDAO;
 import com.care.quiz.membership.dto.MemberDTO;
-import com.care.quiz.membership.dto.PostcodeDTO;
 
 @Service
 public class MemberServiceImpl implements IMemberService {
 	@Autowired IMemberDAO dao;
 	@Autowired HttpSession session;
 	
+	// 아이디 중복 확인
 	@Override
 	public String IsExistId(String id) {
+		if(id == null)
+			return "입력 후 확인해주세요.";
 		if(dao.IsExistId(id) == 0) {
 			// 회원가입 시 중복 체크를 했는지 확인하기 위한 session
 			session.setAttribute("IsExistId", "y");
@@ -26,15 +28,8 @@ public class MemberServiceImpl implements IMemberService {
 		session.invalidate();
 		return "중복 아이디입니다.";
 	}
-
-	@Override
-	public String memberProc(MemberDTO member, PostcodeDTO post) {
-//		if(dao.memberProc(member, post) == 0)
-//			return "가입 실패. 다시 이용해주세요.";
-		
-		return "가입 완료";
-	}
-
+	
+	// 회원가입 
 	@Override
 	public String insert(MemberDTO member) {
 		
@@ -56,10 +51,6 @@ public class MemberServiceImpl implements IMemberService {
 		if(session.getAttribute("check") == null || session.getAttribute("check") == "n") {
 			return "인증번호를 확인해주세요.";
 		}
-		// 주소와 상세주소 합치기 위한 setter
-		member.setAddress(member.getAddr1() + " " + member.getAddr2());
-		// 확인용 출력
-//		System.out.println("address : " + member.getAddress());
 		
 		// 비밀번호 암호화
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -73,6 +64,7 @@ public class MemberServiceImpl implements IMemberService {
 		
 	}
 
+	// 로그인
 	@Override
 	public String login(MemberDTO member) {
 		// 입력여부 검증

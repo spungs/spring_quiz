@@ -3,9 +3,11 @@ package com.care.quiz.membership.dto;
 CREATE TABLE spring_quiz(
 id varchar2(20),
 pw varchar2(60),
-email varchar2(100),
-address varchar2(500),
 gender varchar2(15),
+email varchar2(100),
+zipcode varchar2(5) not null,
+addr1 varchar2(500),
+addr2 varchar2(100),
 PRIMARY KEY(id)
 );
 
@@ -20,7 +22,6 @@ public class MemberDTO {
 	private String email;
 	private String addr1;
 	private String addr2;
-	private String address;
 	private String gender;
 	private String authNum;
 	private String zipcode;
@@ -39,14 +40,6 @@ public class MemberDTO {
 
 	public void setAuthNum(String authNum) {
 		this.authNum = authNum;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
 	}
 
 	public String getPwOk() {

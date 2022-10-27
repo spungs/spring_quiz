@@ -1,7 +1,6 @@
 package com.care.quiz.membership.service;
 
 import com.care.quiz.membership.dto.MemberDTO;
-import com.care.quiz.membership.dto.PostcodeDTO;
 
 public interface IMemberService {
 
@@ -11,7 +10,6 @@ public interface IMemberService {
 	// 회원 가입
 	public String insert(MemberDTO member);
 	
-	public String memberProc(MemberDTO member, PostcodeDTO post);
-
+	// 로그인
 	public String login(MemberDTO member);
 }

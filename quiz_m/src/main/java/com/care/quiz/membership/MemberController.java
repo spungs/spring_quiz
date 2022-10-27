@@ -26,9 +26,6 @@ public class MemberController {
 	@ResponseBody
 	@PostMapping(value = "IsExistId", produces = "text/html; charset=UTF-8")
 	public String IsExistId(@RequestBody(required = false) String id) {
-		if(id == null)
-			return "입력 후 확인해주세요.";
-		
 		return service.IsExistId(id);
 	}
 	
