@@ -4,7 +4,7 @@
 	<div align="center" style="height: 45">
 		<font style="color: red; font-weight: bold; font-size: large;">${Msg }</font>
 	</div>
-	<form action="login" method="post">
+	<form action="loginProc" method="post">
 		<table>
 			<tr>
 				<td>아이디</td>

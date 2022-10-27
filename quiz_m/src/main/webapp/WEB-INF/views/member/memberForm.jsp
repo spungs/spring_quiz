@@ -2,18 +2,18 @@
 
 <script>
 	var req
-	function IsExistId() { // 아이디 중복체크하는 함수
+	function isExistId() { // 아이디 중복체크하는 함수
 		req = new XMLHttpRequest();
 		req.onreadystatechange = changeText
-		req.open('post', 'IsExistId')
+		req.open('post', 'isExistId')
 		var reqData = document.getElementById('id').value
 		req.send(reqData)
 	}
 
 	function changeText() {
 		if (req.readyState == 4 && req.status == 200) {
-			var IsExistIdMsg = document.getElementById('IsExistIdMsg')
-			IsExistIdMsg.innerHTML = req.responseText
+			var isExistIdMsg = document.getElementById('isExistIdMsg')
+			isExistIdMsg.innerHTML = req.responseText
 		}
 	}
 	
@@ -68,45 +68,45 @@
 	<div align="center" style="height: 45">
 		<font id="Msg" style="color: red; font-weight: bold; font-size: large;">${Msg }</font>
 	</div>
-	<form action="member" method="post">
+	<form action="memberProc" method="post">
 		<table border="1">
 			<tr>
 				<td align='right' height=40>아이디</td>
-				<td><input type=text name='id' id="id" value="${id}" placeholder='id 입력' /></td>
+				<td><input type=text name='id' id="id" value="${member.id}" placeholder='id 입력' /></td>
 				<td colspan="2"><input type="button" value="중복 확인"
-					onclick="IsExistId()"><font id="IsExistIdMsg" color="red"
+					onclick="isExistId()"><font id="isExistIdMsg" color="red"
 					style="margin-left: 5"></font></td>
 			</tr>
 			<tr>
 				<td align='right' height=40>패스워드</td>
-				<td><input type=text name='pw' value="${pw}" placeholder='pw 입력' /></td>
+				<td><input type=text name='pw' value="${member.pw}" placeholder='pw 입력' /></td>
 				<td align='right'>패스워드 확인</td>
-				<td><input type=text name='pwOk' value="${pwOk}" placeholder='pw 입력' /></td>
+				<td><input type=text name='pwOk' value="${member.pwOk}" placeholder='pw 입력' /></td>
 			</tr>
 			<tr>
 				<td align='right' height=40>E-Mail</td>
-				<td><input type=text name='email' id="email" value="${email}" placeholder='E-Mail 입력' /></td>
+				<td><input type=text name='email' id="email" value="${member.email}" placeholder='E-Mail 입력' /></td>
 				<td colspan="2"><input type="button" value="인증번호 전송"
 					onclick="sendAuth()"></td>
 			</tr>
 			<tr>
 				<td align='right'>인증번호</td>
-				<td><input type=text name='authNum' id="authNum" value="${authNum}" placeholder='인증번호 입력' /></td>
+				<td><input type=text name='authNum' id="authNum" value="${member.authNum}" placeholder='인증번호 입력' /></td>
 				<td colspan="2"><input type="button" value="인증번호 확인" onclick="checkAuth()"></td>
 			</tr>
 			<tr>
 				<td align='right'>우편번호</td>
-				<td><input type=text name='zipcode' id="zipcode" value="${zipcode}" readonly="readonly" /></td>
+				<td><input type=text name='zipcode' id="zipcode" value="${post.zipcode}" readonly="readonly" /></td>
 				<td colspan="2"><input type="button" value="우편번호 검색" onclick="daumPost()"></td>
 			</tr>
 			<tr>
 				<td align='right'>주소</td>
-				<td colspan="3"><input type=text name='addr1' id="addr1" value="${addr1}"
+				<td colspan="3"><input type=text name='addr1' id="addr1" value="${post.addr1}"
 					readonly="readonly" style="width: 475px;" /></td>
 			</tr>
 			<tr>
 				<td align='right'>상세주소</td>
-				<td colspan="3"><input type=text name='addr2' id="addr2" value="${addr2}"
+				<td colspan="3"><input type=text name='addr2' id="addr2" value="${post.addr2}"
 					style="width: 475px;" /></td>
 			</tr>
 			<tr>

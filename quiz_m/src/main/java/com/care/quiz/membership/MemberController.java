@@ -4,6 +4,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.care.quiz.membership.dto.LoginDTO;
 import com.care.quiz.membership.dto.MemberDTO;
+import com.care.quiz.membership.dto.PostcodeDTO;
 import com.care.quiz.membership.service.IMemberService;
 import com.care.quiz.membership.service.MailService;
 
@@ -20,45 +23,38 @@ public class MemberController {
 	@Autowired IMemberService service;
 	@Autowired HttpSession session;
 	
-	@GetMapping("index")
-	public void index() {}
-	
-	@ResponseBody
-	@PostMapping(value = "IsExistId", produces = "text/html; charset=UTF-8")
-	public String IsExistId(@RequestBody(required = false) String id) {
-		return service.IsExistId(id);
+	@RequestMapping("index")
+	public String index(Model model, String formpath) {
+		if(formpath == null)
+			return "index";
+		else if(formpath.equals("list")) {
+			model.addAttribute("members", service.list());
+			return "index";
+		}
+		return "index";
 	}
 	
-	@RequestMapping(value = "member", produces = "text/html; charset=UTF-8")
-	public String member(MemberDTO member, RedirectAttributes ra) {
+	@ResponseBody
+	@PostMapping(value = "isExistId", produces = "text/html; charset=UTF-8")
+	public String isExistId(@RequestBody(required = false) String id) {
+		return service.isExistId(id);
+	}
+	
+	@RequestMapping(value = "memberProc", produces = "text/html; charset=UTF-8")
+	public String memberProc(MemberDTO member, PostcodeDTO post, RedirectAttributes ra) {
 		
-		//redirect 시 입력한 데이터를 안 지워주기 위한 add
-		ra.addFlashAttribute("id", member.getId());
-		ra.addFlashAttribute("pw", member.getPw());
-		ra.addFlashAttribute("pwOk", member.getPwOk());
-		ra.addFlashAttribute("email", member.getEmail());
-		ra.addFlashAttribute("authNum", member.getAuthNum());
-		ra.addFlashAttribute("zipcode", member.getZipcode());
-		ra.addFlashAttribute("addr1", member.getAddr1());
-		ra.addFlashAttribute("addr2", member.getAddr2());
+		// 입력한 데이터를 안 지워주기 위함
+		session.setAttribute("member", member);
+		session.setAttribute("post", post);
 		
-		// service의 insert 메서드 호출해서 문자열 반환
-		String result = service.insert(member);
+		// service의 memberProc 메서드 호출해서 문자열 반환
+		String result = service.memberProc(member, post);
 		// result가 가입 완료가 아니라면
 		if(result.equals("가입 완료") == false) {
 			ra.addFlashAttribute("Msg", result);
 			return "redirect:index?formpath=member";
 		} 
 		else {
-			// 가입 완료했으면 value 지워주기 위해 공백 add
-			ra.addFlashAttribute("id", "");
-			ra.addFlashAttribute("pw", "");
-			ra.addFlashAttribute("pwOk", "");
-			ra.addFlashAttribute("email", "");
-			ra.addFlashAttribute("authNum", "");
-			ra.addFlashAttribute("zipcode", "");
-			ra.addFlashAttribute("addr1", "");
-			ra.addFlashAttribute("addr2", "");
 			ra.addFlashAttribute("Msg", result);
 			// 가입 완료하면 회원가입 관련 session을 지워주기 위한 invalidate
 			session.invalidate();
@@ -66,22 +62,19 @@ public class MemberController {
 		}
 	}
 	
-	@RequestMapping(value = "login", produces = "text/html; charset=UTF-8")
-	public String login(MemberDTO member, RedirectAttributes ra) {
+	@RequestMapping(value = "loginProc", produces = "text/html; charset=UTF-8")
+	public String loginProc(LoginDTO login, RedirectAttributes ra) {
 		// service의 login 메서드를 호출하고 반환받은 문자열을 result 변수에 저장
-		String result = service.login(member);
+		String result = service.loginProc(login);
 		
 		// 로그인 실패 시 반환받은 문자열을 반환
-		if(result.equals("로그인 완료") == false) {
+		if(result.equals("로그인 완료")) {
 			ra.addFlashAttribute("Msg", result);
-			ra.addFlashAttribute("id", member.getId());
-			return "redirect:index?formpath=login";
+			return "redirect:index";
 		}
-		
-		ra.addFlashAttribute("Msg", "로그인 완료.");
-		// 로그인 성공 시 session에 정보들을 넣어줌
-		session.setAttribute("id", member.getId());
-		return "redirect:index";
+		ra.addFlashAttribute("Msg", result);
+		ra.addFlashAttribute("id", login.getId());
+		return "redirect:index?formpath=login";
 	}
 	
 	@GetMapping("logout")

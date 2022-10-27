@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.care.quiz.membership.dao.IMemberDAO">
+	<select id="IsExistId" parameterType="String" resultType="integer">
+		SELECT count(id) FROM spring_quiz WHERE id=#{id}
+	</select>
+	<insert id="insert" parameterType="com.care.quiz.membership.dto.MemberDTO">
+		INSERT INTO spring_quiz VALUES(#{id},#{pw},#{gender},#{email},#{zipcode},#{addr1},#{addr2})
+	</insert>
+	<select id="login" parameterType="com.care.quiz.membership.dto.MemberDTO" resultType="com.care.quiz.membership.dto.MemberDTO">
+		SELECT * FROM spring_quiz WHERE id=#{id}
+	</select>
+</mapper>
