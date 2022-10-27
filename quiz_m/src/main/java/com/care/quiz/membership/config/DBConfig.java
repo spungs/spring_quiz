@@ -1,4 +1,4 @@
-package com.care.quiz;
+package com.care.quiz.membership.config;
 
 import java.io.IOException;
 
@@ -13,7 +13,7 @@ import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
 @MapperScan(basePackages = {"com.care.quiz.membership.dao"})
-public class Config {
+public class DBConfig {
 
 	@Bean
 	public HikariDataSource dataSource() {

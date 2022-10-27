@@ -22,6 +22,24 @@ public class MemberDTO {
 	private String addr2;
 	private String address;
 	private String gender;
+	private String authNum;
+	private String zipcode;
+
+	public String getZipcode() {
+		return zipcode;
+	}
+
+	public void setZipcode(String zipcode) {
+		this.zipcode = zipcode;
+	}
+
+	public String getAuthNum() {
+		return authNum;
+	}
+
+	public void setAuthNum(String authNum) {
+		this.authNum = authNum;
+	}
 
 	public String getAddress() {
 		return address;

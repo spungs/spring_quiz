@@ -39,7 +39,9 @@ public class MemberServiceImpl implements IMemberService {
 	public String insert(MemberDTO member) {
 		
 		// 모두 입력했는지 체크하는 if문 (parameter로 null이 전달되면 공백이라 isEmpty 사용)
-		if(member.getPw().isEmpty() || member.getId().isEmpty() || member.getPwOk().isEmpty()) {
+		if(member.getPw().isEmpty() || member.getId().isEmpty() || member.getPwOk().isEmpty() || 
+				member.getEmail().isEmpty() || member.getAuthNum().isEmpty() || 
+				member.getAddr1().isEmpty() || member.getAddr2().isEmpty()) {
 			return "모두 입력해주세요.";
 		}
 		// 입력한 pw랑 poWk가 같은지 확인하는 if문
@@ -50,9 +52,14 @@ public class MemberServiceImpl implements IMemberService {
 		if(session.getAttribute("IsExistId") == null) {
 			return "아이디 중복 확인 해주세요.";
 		}
+		// 인증번호 확인하는 if문
+		if(session.getAttribute("check") == null || session.getAttribute("check") == "n") {
+			return "인증번호를 확인해주세요.";
+		}
 		// 주소와 상세주소 합치기 위한 setter
 		member.setAddress(member.getAddr1() + " " + member.getAddr2());
-		System.out.println("address : " + member.getAddress());
+		// 확인용 출력
+//		System.out.println("address : " + member.getAddress());
 		
 		// 비밀번호 암호화
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
