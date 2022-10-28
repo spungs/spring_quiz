@@ -48,22 +48,29 @@ public class MemberServiceImpl implements IMemberService {
 		if(login.getPw().equals(login.getPwOk()) == false) {
 			return "입력하신 두 비밀번호가 일치하지 않습니다.";
 		}
-		// 아이디 중복 체크 했는지 확인하는 if문
+		// 아이디 중복 체크 했는지 확인
 		if(session.getAttribute("isExistId") == null) {
-			return "아이디 중복 확인 해주세요.";
+			return "아이디 중복여부 확인 해주세요.";
 		}
-//		// 인증번호 확인하는 if문
-//		if(session.getAttribute("check") == null || session.getAttribute("check") == "n") {
-//			return "인증번호를 확인해주세요.";
-//		}
-		
+		// 인증번호 확인
+		Boolean authStatus = (boolean)session.getAttribute("authStatus");
+		if(authStatus == null || authStatus == false) {
+			return "이메일 인증 후 가입 할 수 있습니다.";
+		}
 		// 비밀번호 암호화
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		String cipherPassword = encoder.encode(login.getPw());
 		login.setPw(cipherPassword);
 		
-		if(dao.insertLogin(login) > 0)
+		if(dao.insertLogin(login) > 0) {
+			// login테이블에 insert 시 member테이블에도 insert
+			if("m".equals(member.getGender()) || "w".equals(member.getGender()) ||
+					"n".equals(member.getGender()))
+				dao.insertMember(member);
+			if(!("".equals(post.getZipcode())))
+				dao.insertPost(post);
 			return "가입 완료";
+		}
 		else
 			return "가입 실패";
 	}
@@ -91,8 +98,8 @@ public class MemberServiceImpl implements IMemberService {
 	}
 
 	@Override
-	public ArrayList<MemberDTO> list() {
-		return dao.list();
+	public ArrayList<MemberDTO> memberList() {
+		return dao.memberList();
 	}
 
 	

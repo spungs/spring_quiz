@@ -5,14 +5,27 @@
 	<select id="isExistId" parameterType="String" resultType="integer">
 		SELECT count(id) FROM login WHERE id=#{id}
 	</select>
+	
 	<insert id="insertLogin" parameterType="com.care.quiz.membership.dto.LoginDTO">
 		INSERT INTO login VALUES(#{id},#{pw})
+	</insert>
+	
+	<insert id="insertMember" parameterType="com.care.quiz.membership.dto.MemberDTO">
+		INSERT INTO member VALUES(#{id},#{gender},#{email})
+	</insert>
+	
+	<insert id="insertPost" parameterType="com.care.quiz.membership.dto.PostcodeDTO">
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">
+			SELECT nvl(max(no), 0)+1 FROM postcode
+		</selectKey>
+			INSERT INTO postcode VALUES(#{no}, #{zipcode}, #{addr1}, #{addr2}, #{id} )
 	</insert>
 	
 	<select id="loginProc" parameterType="com.care.quiz.membership.dto.LoginDTO" resultType="com.care.quiz.membership.dto.LoginDTO">
 		SELECT * FROM login WHERE id=#{id}
 	</select>
-	<select id="list" resultType="com.care.quiz.membership.dto.MemberDTO">
-		SELECT * FROM spring_quiz
+	
+	<select id="memberList" resultType="com.care.quiz.membership.dto.MemberDTO">
+		SELECT * FROM member
 	</select>
 </mapper>

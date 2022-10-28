@@ -17,5 +17,5 @@ public interface IMemberService {
 	// 로그인
 	public String loginProc(LoginDTO login);
 
-	public ArrayList<MemberDTO> list();
+	public ArrayList<MemberDTO> memberList();
 }

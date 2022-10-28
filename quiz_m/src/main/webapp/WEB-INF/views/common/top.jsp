@@ -22,9 +22,9 @@ a:active {color: #ff00cc;text-decoration: underline;}
 			</c:when>
 			<c:otherwise>
 				<td><a href="logout">로그아웃</a></td>
-				<td><a href="index?formpath=list">회원목록</a></td>
 			</c:otherwise>
 		</c:choose>
+				<td><a href="index?formpath=memberList">회원목록</a></td>
 		<td><a href="index?formpath=member">회원가입</a></td>
 		<td><a href="index?formpath=board">게시판</a></td>
 	</tr>

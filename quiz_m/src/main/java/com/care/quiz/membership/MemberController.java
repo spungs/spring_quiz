@@ -27,8 +27,8 @@ public class MemberController {
 	public String index(Model model, String formpath) {
 		if(formpath == null)
 			return "index";
-		else if(formpath.equals("list")) {
-			model.addAttribute("members", service.list());
+		else if(formpath.equals("memberList")) {
+			model.addAttribute("members", service.memberList());
 			return "index";
 		}
 		return "index";
@@ -98,31 +98,28 @@ public class MemberController {
 		String randomNum = Double.toString(n).substring(2,8);
 		// 인증번호는 사용자별 정보이기에 session에 꼭 저장해야함.
 		session.setAttribute("randomNum", randomNum);
+		System.out.println("randomNum : " + randomNum);
 		mailService.sendMail(email, "[인증번호]", randomNum);
 		return "인증번호를 이메일로 전송했습니다.";
 	}
 	
 	@ResponseBody
 	@PostMapping(value="checkAuth", produces="text/html; charset=UTF-8")
-	public String checkAuth(@RequestBody(required = false) String authNum) {
-		String randomNum = (String)session.getAttribute("randomNum");
+	public String checkAuth(@RequestBody(required = false) String inputNum) {
+		String sessionNum = (String)session.getAttribute("randomNum");
 		
-		if(authNum == null)
+		session.setAttribute("authStatus", false);
+		if(sessionNum == null)
+			return "인증번호를 생성하세요.";
+		if(inputNum == null)
 			return "인증번호를 입력하세요 ";
-		else if(randomNum == null)
-			return "이메일을 입력 후 인증번호를 생성하세요.";
-		else if(authNum.equals(randomNum)) {
-			session.setAttribute("check", "y"); // 인증 체크용 session
+		if(inputNum.equals(sessionNum)) {
+			session.setAttribute("authStatus", true); // 인증 체크용 session
 			return "인증 성공";
 		}
-		else {
-			session.setAttribute("check", "n");
-			return "인증 실패";
-		}
+		
+		return "인증 실패";
 	}
-	
-	
-	
 	
 	
 	

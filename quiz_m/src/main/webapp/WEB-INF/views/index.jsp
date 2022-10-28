@@ -21,8 +21,8 @@
 		<c:when test="${param.formpath == 'board'}">
 			<td style="height:400px;"><%@ include file="board/boardForm.jsp" %></td>
 		</c:when>
-		<c:when test="${param.formpath == 'list'}">
-			<td style="height:400px;"><%@ include file="member/list.jsp" %></td>
+		<c:when test="${param.formpath == 'memberList'}">
+			<td style="height:400px;"><%@ include file="member/memberListForm.jsp" %></td>
 		</c:when>
 	</c:choose>
 </tr>

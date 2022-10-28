@@ -72,16 +72,16 @@
 		<table border="1">
 			<tr>
 				<td align='right' height=40>아이디</td>
-				<td><input type=text name='id' id="id" value="${member.id}" placeholder='id 입력' /></td>
+				<td><input type="text"t name='id' id="id" value="${member.id}" placeholder='id 입력' /></td>
 				<td colspan="2"><input type="button" value="중복 확인"
 					onclick="isExistId()"><font id="isExistIdMsg" color="red"
 					style="margin-left: 5"></font></td>
 			</tr>
 			<tr>
 				<td align='right' height=40>패스워드</td>
-				<td><input type=text name='pw' value="${member.pw}" placeholder='pw 입력' /></td>
+				<td><input type="password" name='pw' value="${member.pw}" placeholder='pw 입력' /></td>
 				<td align='right'>패스워드 확인</td>
-				<td><input type=text name='pwOk' value="${member.pwOk}" placeholder='pw 입력' /></td>
+				<td><input type="password" name='pwOk' value="${member.pwOk}" placeholder='pw 입력' /></td>
 			</tr>
 			<tr>
 				<td align='right' height=40>E-Mail</td>
